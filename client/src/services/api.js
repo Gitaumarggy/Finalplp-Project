@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// Force localhost for development
-const API_BASE_URL = 'http://localhost:5000/api';
+// Use deployed backend
+const API_BASE_URL = 'https://finalplp-project.onrender.com/api';
 
 // Debug: Log the base URL to see what's being used
 console.log('Using API Base URL:', API_BASE_URL);
