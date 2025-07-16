@@ -32,15 +32,10 @@ app.use(cors({
 }));
 app.use(helmet());
 
-// Set default JWT secret if not provided (only for development)
-if (!process.env.JWT_SECRET) {
-  process.env.JWT_SECRET = 'your-super-secret-jwt-key-change-this-in-production';
-}
-
-// Rate limiting
+// Rate limiting (always active)
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: process.env.NODE_ENV === 'development' ? 1000 : 100 // Higher limit for dev
+  max: 100 // Always limit to 100 requests per window
 });
 app.use('/api/', limiter);
 
@@ -48,7 +43,7 @@ app.use('/api/', limiter);
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Serve uploaded files and static assets
+// Static files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -61,7 +56,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/collections', collectionRoutes);
 app.use('/api/challenges', challengeRoutes);
 
-// Health check route
+// Health check
 app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'OK', 
@@ -70,7 +65,7 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Friendly root route
+// Root route
 app.get('/', (req, res) => {
   res.send('API server is running!');
 });
@@ -80,24 +75,18 @@ app.use('*', (req, res) => {
   res.status(404).json({ message: 'Route not found' });
 });
 
-// Global error handler
+// Error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ 
-    message: 'Something went wrong!',
-    error: process.env.NODE_ENV === 'development' ? err.message : 'Internal server error'
-  });
-});
-
-// Handle unhandled promise rejections
-process.on('unhandledRejection', (err) => {
-  console.error('Unhandled Rejection:', err);
-  process.exit(1);
+  res.status(500).json({ message: 'Something went wrong!', error: err.message });
 });
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+mongoose.connection.once('open', () => {
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`MongoDB connected: ${mongoose.connection.host}`);
+  });
 });
 
 module.exports = app;
