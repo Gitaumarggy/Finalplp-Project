@@ -13,6 +13,12 @@ const connectDB = require('./config/db');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Debug middleware to log all requests
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
+
 // Middleware
 app.use(cors({
   origin: process.env.CLIENT_URL || 'http://localhost:5173',
@@ -46,6 +52,13 @@ app.get('/api/health', (req, res) => {
   res.json({
     status: 'OK',
     message: 'Recipe App API is running',
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.get('/api/test', (req, res) => {
+  res.json({
+    message: 'Backend is working!',
     timestamp: new Date().toISOString()
   });
 });

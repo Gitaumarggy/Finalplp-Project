@@ -26,18 +26,39 @@ exports.registerUser = async (req, res) => {
 // @route   POST /api/auth/login
 // @access  Public
 exports.loginUser = async (req, res) => {
-  const { email, password } = req.body;
-  const user = await User.findOne({ email });
-  if (!user || !(await user.matchPassword(password))) {
-    return res.status(404).json({ message: 'Invalid credentials' });
+  try {
+    const { email, password } = req.body;
+    
+    // Find user by email
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+    
+    // Check password
+    const isMatch = await user.matchPassword(password);
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+    
+    // Generate token
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '30d' });
+    
+    // Send response
+    res.json({ 
+      user: { 
+        _id: user._id,
+        email: user.email,
+        username: user.username,
+        role: user.role,
+        profile: user.profile
+      }, 
+      token 
+    });
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ message: 'Server error' });
   }
-  // User found and password matches
- const match = await bcrypt.compare(password, user.password);
-  if (!match) {
-    return res.status(401).json({ message: 'Invalid credentials' });
-  } 
-   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '30d' });
-  res.json({ user: { ...user._doc, password: undefined }, token });
 };
 
 // @desc    Get user data
