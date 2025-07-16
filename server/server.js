@@ -9,18 +9,6 @@ const rateLimit = require('express-rate-limit');
 // Import custom DB connection
 const connectDB = require('./config/db');
 
-// Import routes
-const recipeRoutes = require('./routes/recipes');
-const userRoutes = require('./routes/users');
-const sessionRoutes = require('./routes/sessions');
-const reviewRoutes = require('./routes/reviews');
-const authRoutes = require('./routes/auth');
-const collectionRoutes = require('./routes/collections');
-const challengeRoutes = require('./routes/challenges');
-
-// Connect to MongoDB
-connectDB();
-
 // Initialize Express app
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -32,61 +20,57 @@ app.use(cors({
 }));
 app.use(helmet());
 
-// Rate limiting (always active)
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // Always limit to 100 requests per window
+  windowMs: 15 * 60 * 1000,
+  max: 100
 });
 app.use('/api/', limiter);
 
-// Body parsing middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Static files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // API Routes
-app.use('/api/recipes', recipeRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/sessions', sessionRoutes);
-app.use('/api/reviews', reviewRoutes);
-app.use('/api/auth', authRoutes);
-app.use('/api/collections', collectionRoutes);
-app.use('/api/challenges', challengeRoutes);
+app.use('/api/recipes', require('./routes/recipes'));
+app.use('/api/users', require('./routes/users'));
+app.use('/api/sessions', require('./routes/sessions'));
+app.use('/api/reviews', require('./routes/reviews'));
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/collections', require('./routes/collections'));
+app.use('/api/challenges', require('./routes/challenges'));
 
-// Health check
+// Health & root routes
 app.get('/api/health', (req, res) => {
-  res.json({ 
-    status: 'OK', 
+  res.json({
+    status: 'OK',
     message: 'Recipe App API is running',
     timestamp: new Date().toISOString()
   });
 });
 
-// Root route
 app.get('/', (req, res) => {
   res.send('API server is running!');
 });
 
-// 404 handler
 app.use('*', (req, res) => {
   res.status(404).json({ message: 'Route not found' });
 });
 
-// Error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: 'Something went wrong!', error: err.message });
 });
 
-// Start server
-mongoose.connection.once('open', () => {
+// ✅ Connect to DB and start server
+connectDB().then(() => {
   app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-    console.log(`MongoDB connected: ${mongoose.connection.host}`);
+    console.log(` Server running on http://localhost:${PORT}`);
   });
+}).catch((err) => {
+  console.error('Failed to connect to MongoDB:', err.message);
+  process.exit(1);
 });
 
 module.exports = app;
