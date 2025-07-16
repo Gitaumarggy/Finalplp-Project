@@ -1,0 +1,626 @@
+/* About Page Styles - Professional Modern Design */
+
+.aboutContainer {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* Hero Section - Professional Glassmorphism */
+.aboutHero {
+  position: relative;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  border-radius: 32px;
+  padding: 10rem 4rem;
+  margin: 3rem 0 8rem;
+  text-align: center;
+  color: white;
+  overflow: hidden;
+  box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  position: relative;
+}
+
+.aboutHero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+  animation: float 25s ease-in-out infinite;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.aboutHero h1 {
+  font-size: clamp(3rem, 8vw, 5rem);
+  margin-bottom: 2.5rem;
+  font-weight: 900;
+  text-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(45deg, #ffffff, #f8fafc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: glow 4s ease-in-out infinite alternate;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.aboutHero p {
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  max-width: 800px;
+  margin: 0 auto;
+  opacity: 0.95;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  line-height: 1.6;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+/* Mission Section - Professional Card */
+.aboutSection {
+  margin: 8rem 0;
+  padding: 4rem;
+  background: var(--surface);
+  border-radius: 24px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-light);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.aboutSection:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 32px 64px rgba(0, 0, 0, 0.12);
+}
+
+.aboutSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary));
+  animation: shimmer 4s ease-in-out infinite;
+}
+
+.aboutSection h2 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: var(--text-primary);
+  margin-bottom: 2.5rem;
+  font-weight: 800;
+  position: relative;
+  letter-spacing: -0.02em;
+}
+
+.aboutSection p {
+  font-size: 1.25rem;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  font-weight: 400;
+  max-width: 800px;
+}
+
+/* Features Section - Professional Grid */
+.featuresSection {
+  margin: 10rem 0;
+}
+
+.sectionTitle {
+  text-align: center;
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
+  margin-bottom: 5rem;
+  color: var(--text-primary);
+  font-weight: 900;
+  position: relative;
+  letter-spacing: -0.02em;
+}
+
+.sectionTitle::after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 5px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  border-radius: 3px;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 3rem;
+  margin-top: 4rem;
+}
+
+.featureCard {
+  background: var(--surface);
+  padding: 3.5rem 2.5rem;
+  border-radius: 24px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  backdrop-filter: blur(20px);
+}
+
+.featureCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  transition: left 0.6s;
+}
+
+.featureCard:hover::before {
+  left: 100%;
+}
+
+.featureCard:hover {
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 32px 64px rgba(0, 0, 0, 0.12);
+}
+
+.featureIcon {
+  font-size: 4.5rem;
+  margin-bottom: 2.5rem;
+  display: block;
+  animation: bounce 3s ease-in-out infinite;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+.featureCard h3 {
+  font-size: 1.75rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.featureCard p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-size: 1.15rem;
+  font-weight: 400;
+}
+
+/* Technology Stack - Professional Cards */
+.techSection {
+  margin: 10rem 0;
+  text-align: center;
+}
+
+.techStack {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  margin-top: 4rem;
+}
+
+.techItem {
+  background: var(--surface);
+  padding: 2.5rem 3rem;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 180px;
+  transition: all 0.4s ease;
+  border: 1px solid var(--border-light);
+  backdrop-filter: blur(20px);
+}
+
+.techItem:hover {
+  transform: translateY(-8px) rotate(3deg);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12);
+}
+
+.techLogo {
+  width: 90px;
+  height: 90px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.25rem;
+  font-weight: 900;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 15px 30px rgba(139, 92, 246, 0.3);
+  transition: all 0.4s ease;
+}
+
+.techItem:hover .techLogo {
+  transform: scale(1.15) rotate(360deg);
+}
+
+.techItem span {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  letter-spacing: 0.01em;
+}
+
+/* Team Section - Professional Profile Cards */
+.teamSection {
+  margin: 10rem 0;
+}
+
+.teamGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 3rem;
+  margin-top: 4rem;
+}
+
+.teamCard {
+  background: var(--surface);
+  padding: 3.5rem 2.5rem;
+  border-radius: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  backdrop-filter: blur(20px);
+}
+
+.teamCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
+}
+
+.teamCard:hover::before {
+  transform: scaleX(1);
+}
+
+.teamCard:hover {
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 32px 64px rgba(0, 0, 0, 0.12);
+}
+
+.teamAvatar {
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: 900;
+  margin: 0 auto 2rem;
+  box-shadow: 0 15px 30px rgba(139, 92, 246, 0.3);
+  transition: all 0.4s ease;
+  letter-spacing: 0.02em;
+}
+
+.teamCard:hover .teamAvatar {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.teamCard h3 {
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.teamRole {
+  font-size: 1.1rem;
+  color: var(--primary);
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.teamBio {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+
+/* Call to Action - Professional Design */
+.ctaSection {
+  margin: 10rem 0 5rem;
+  padding: 5rem 3rem;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  border-radius: 32px;
+  text-align: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 32px 64px rgba(139, 92, 246, 0.3);
+}
+
+.ctaSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  animation: float 20s ease-in-out infinite;
+}
+
+.ctaSection h2 {
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
+  margin-bottom: 1.5rem;
+  font-weight: 900;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 2;
+  letter-spacing: -0.02em;
+}
+
+.ctaSection p {
+  font-size: 1.25rem;
+  margin-bottom: 3rem;
+  opacity: 0.95;
+  position: relative;
+  z-index: 2;
+  font-weight: 400;
+}
+
+.ctaButton {
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--primary);
+  border: none;
+  padding: 1.25rem 3rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 2;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.ctaButton:hover {
+  background: white;
+  transform: translateY(-6px) scale(1.05);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+}
+
+.ctaButton:active {
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* Enhanced Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes glow {
+  from {
+    filter: brightness(1);
+  }
+  to {
+    filter: brightness(1.1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-10px) rotate(1deg);
+  }
+  66% {
+    transform: translateY(5px) rotate(-1deg);
+  }
+}
+
+/* Animation Classes */
+.fadeIn {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.slideDown {
+  animation: slideDown 0.8s ease-out forwards;
+}
+
+.slideUp {
+  animation: slideUp 0.8s ease-out forwards;
+}
+
+.slideInLeft {
+  animation: slideInLeft 0.8s ease-out forwards;
+}
+
+.slideInRight {
+  animation: slideInRight 0.8s ease-out forwards;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .aboutContainer {
+    padding: 0 15px;
+  }
+
+  .aboutHero {
+    padding: 6rem 2rem;
+    margin: 2rem 0 4rem;
+    border-radius: 24px;
+  }
+
+  .aboutHero h1 {
+    font-size: 2.5rem;
+  }
+
+  .aboutHero p {
+    font-size: 1.1rem;
+  }
+
+  .sectionTitle {
+    font-size: 2.5rem;
+  }
+
+  .aboutSection {
+    padding: 3rem 2rem;
+    margin: 4rem 0;
+  }
+
+  .featuresGrid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .teamGrid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .techStack {
+    gap: 1.5rem;
+  }
+
+  .ctaSection {
+    padding: 4rem 2rem;
+    margin: 6rem 0 3rem;
+  }
+
+  .ctaSection h2 {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .aboutHero h1 {
+    font-size: 2rem;
+  }
+
+  .aboutHero p {
+    font-size: 1rem;
+  }
+
+  .featureCard,
+  .teamCard {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .techItem {
+    padding: 2rem 1.5rem;
+    min-width: 140px;
+  }
+} 

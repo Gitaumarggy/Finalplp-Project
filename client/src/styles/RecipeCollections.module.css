@@ -1,0 +1,565 @@
+:root {
+  --accent1: #8b5cf6;
+  --accent2: #06b6d4;
+  --accent3: #f472b6;
+  --accent4: #fb923c;
+  --accent5: #38bdf8;
+  --accent6: #34d399;
+}
+
+.collectionsContainer {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 16px 48px 16px;
+  background: #f5efe6;
+  min-height: 100vh;
+  border-radius: 0 0 32px 32px;
+  box-shadow: 0 8px 32px rgba(139,92,246,0.08);
+  animation: fadeInBg 1.2s cubic-bezier(0.4,0,0.2,1);
+}
+
+@keyframes fadeInBg {
+  0% { opacity: 0; filter: blur(8px); }
+  100% { opacity: 1; filter: blur(0); }
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 2;
+}
+
+.header h2 {
+  margin: 0 0 12px 0;
+  color: #22223b;
+  font-size: 2.5rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  text-shadow: none;
+}
+
+.header p {
+  margin: 0 0 28px 0;
+  color: #444;
+  font-size: 1.15rem;
+  font-weight: 500;
+}
+
+.createButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  background: linear-gradient(90deg, #8b5cf6, #06b6d4);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 700;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 24px rgba(139,92,246,0.12);
+  margin-top: 8px;
+}
+.createButton:hover {
+  background: linear-gradient(90deg, #06b6d4, #8b5cf6);
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 8px 32px rgba(6,182,212,0.18);
+}
+
+.collectionsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 32px;
+  margin-bottom: 40px;
+  z-index: 2;
+}
+
+.collectionCard {
+  background: #fff;
+  border: none;
+  border-radius: 20px;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+  position: relative;
+  box-shadow: 0 2px 16px rgba(139,92,246,0.08);
+  display: flex;
+  flex-direction: column;
+  min-height: 340px;
+  /* Remove animation and transform */
+  /* animation: fadeInCard 0.7s cubic-bezier(0.4,0,0.2,1); */
+  /* will-change: transform, box-shadow; */
+}
+
+/* Alternate accent backgrounds for cards */
+.collectionCard:nth-child(3n+1) {
+  box-shadow: 0 4px 32px 0 rgba(139,92,246,0.10), 0 0 0 4px var(--accent1, #8b5cf6);
+  border-top: 4px solid var(--accent1, #8b5cf6);
+}
+.collectionCard:nth-child(3n+2) {
+  box-shadow: 0 4px 32px 0 rgba(251,146,60,0.10), 0 0 0 4px var(--accent4, #fb923c);
+  border-top: 4px solid var(--accent4, #fb923c);
+}
+.collectionCard:nth-child(3n) {
+  box-shadow: 0 4px 32px 0 rgba(52,211,153,0.10), 0 0 0 4px var(--accent6, #34d399);
+  border-top: 4px solid var(--accent6, #34d399);
+}
+
+.collectionCard:hover {
+  /* Remove transform and animation on hover */
+  box-shadow: 0 16px 48px 0 rgba(6,182,212,0.18), 0 0 0 6px var(--accent2, #06b6d4);
+  border-top: 4px solid var(--accent2, #06b6d4);
+}
+
+/* Remove staggered effect */
+.collectionCard:nth-child(2n) {
+  margin-top: 0;
+}
+
+.collectionInfo {
+  flex: 1;
+  padding: 28px 24px 12px 24px;
+}
+
+.collectionName {
+  margin: 0 0 10px 0;
+  color: #22223b;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.collectionCard:nth-child(3n+2) .collectionName {
+  color: var(--accent4);
+}
+.collectionCard:nth-child(3n) .collectionName {
+  color: var(--accent6);
+}
+
+.collectionDescription {
+  margin: 0 0 18px 0;
+  color: #444;
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+.collectionMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-bottom: 8px;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.98rem;
+  color: #333;
+  background: #f1f5f9;
+  border-radius: 6px;
+  padding: 3px 10px;
+  font-weight: 500;
+}
+
+.metaItem i {
+  color: var(--accent2);
+  font-size: 1rem;
+}
+
+.collectionCard:nth-child(3n+2) .metaItem i {
+  color: var(--accent4);
+}
+.collectionCard:nth-child(3n) .metaItem i {
+  color: var(--accent6);
+}
+
+.collectionActions {
+  display: flex;
+  gap: 8px;
+  position: absolute;
+  top: 18px;
+  right: 18px;
+}
+
+.actionButton {
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background 0.2s, color 0.2s;
+  font-size: 1.1rem;
+}
+.actionButton:hover {
+  background: #f87171;
+  color: #fff;
+}
+
+.recipesPreview {
+  padding: 18px 24px 10px 24px;
+  max-height: 180px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.recipePreview {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 12px;
+  background: linear-gradient(90deg, #f1f5f9 60%, #e0f2fe 100%);
+  border-radius: 10px;
+  margin-bottom: 0;
+  position: relative;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 4px rgba(139,92,246,0.04);
+  animation: fadeInCard 0.8s cubic-bezier(0.4,0,0.2,1);
+}
+.recipePreview:hover {
+  background: linear-gradient(90deg, #e0f2fe 60%, #f1f5f9 100%);
+  box-shadow: 0 4px 16px rgba(6,182,212,0.10);
+}
+
+.recipeImage {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, var(--accent1) 0%, var(--accent2) 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(139,92,246,0.10);
+  animation: fadeInCard 0.9s cubic-bezier(0.4,0,0.2,1);
+}
+.collectionCard:nth-child(3n+2) .recipeImage {
+  background: linear-gradient(135deg, var(--accent3) 0%, var(--accent4) 100%);
+}
+.collectionCard:nth-child(3n) .recipeImage {
+  background: linear-gradient(135deg, var(--accent5) 0%, var(--accent6) 100%);
+}
+
+.recipeInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.recipeInfo h4 {
+  margin: 0 0 4px 0;
+  color: #22223b;
+  font-size: 1.08rem;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recipeTime {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.98rem;
+  color: #64748b;
+}
+
+.recipeTime i {
+  color: var(--accent2);
+  font-size: 1rem;
+}
+.collectionCard:nth-child(3n+2) .recipeTime i {
+  color: var(--accent4);
+}
+.collectionCard:nth-child(3n) .recipeTime i {
+  color: var(--accent6);
+}
+
+.removeRecipeButton {
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  transition: background 0.2s, color 0.2s;
+  font-size: 1rem;
+  opacity: 0;
+}
+.recipePreview:hover .removeRecipeButton {
+  opacity: 1;
+}
+.removeRecipeButton:hover {
+  background: #f87171;
+  color: #fff;
+}
+
+.moreRecipes {
+  text-align: center;
+  padding: 10px;
+  color: #333;
+  font-size: 0.98rem;
+  font-style: italic;
+}
+
+.emptyCollection {
+  text-align: center;
+  padding: 30px 20px;
+  color: #444;
+}
+
+.emptyCollection i {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  opacity: 0.5;
+}
+
+.emptyCollection p {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #444;
+}
+
+.addRecipeSection {
+  padding: 18px 24px 18px 24px;
+  border-top: 1px solid #e0e7ef;
+  background: #f8fafc;
+}
+
+.recipeSelect {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e0e7ef;
+  border-radius: 8px;
+  background: #fff;
+  color: #334155;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: border 0.2s;
+}
+.recipeSelect:focus {
+  outline: none;
+  border-color: #8b5cf6;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 80px 20px 60px 20px;
+  color: #e0e7ef;
+}
+
+.emptyIcon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
+
+.emptyState h3 {
+  margin: 0 0 10px 0;
+  color: #22223b;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.emptyState p {
+  margin: 0 0 30px 0;
+  font-size: 1.1rem;
+  color: #444;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(139,92,246,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 16px;
+  max-width: 500px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(139,92,246,0.18);
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #e0e7ef;
+}
+
+.modalHeader h3 {
+  margin: 0;
+  color: #8b5cf6;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 18px;
+  padding: 5px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.modalContent {
+  padding: 20px;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.input, .textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.input:focus, .textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--primary-color-alpha);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.checkboxLabel input {
+  display: none;
+}
+
+.checkmark {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--border-color);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.checkboxLabel input:checked + .checkmark {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.checkboxLabel input:checked + .checkmark::after {
+  content: '✓';
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  padding: 20px;
+  border-top: 1px solid var(--border-color);
+}
+
+.cancelButton {
+  padding: 10px 20px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.cancelButton:hover {
+  background: var(--bg-hover);
+  border-color: var(--text-secondary);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .collectionsContainer {
+    padding: 15px;
+  }
+  
+  .header h2 {
+    font-size: 24px;
+  }
+  
+  .collectionsGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .collectionHeader {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .collectionMeta {
+    gap: 10px;
+  }
+  
+  .modal {
+    margin: 10px;
+    max-height: 90vh;
+  }
+  
+  .modalActions {
+    flex-direction: column;
+  }
+  
+  .cancelButton, .createButton {
+    width: 100%;
+  }
+} 

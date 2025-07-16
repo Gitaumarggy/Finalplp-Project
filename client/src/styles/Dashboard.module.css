@@ -1,0 +1,217 @@
+.dashboardRoot {
+  max-width: 900px;
+  margin: 2.5rem auto;
+  background: var(--bg-primary);
+  border-radius: 18px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.07);
+  padding: 2.5rem 2.5rem 2rem 2.5rem;
+  font-family: 'Inter', sans-serif;
+  position: relative;
+}
+
+.headerRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2.5rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+
+/* Background accent behind profile card */
+.profileAccent {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  width: 350px;
+  height: 180px;
+  background: radial-gradient(circle at 30% 40%, var(--primary) 0%, var(--secondary) 100%);
+  opacity: 0.12;
+  filter: blur(24px);
+  border-radius: 32px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.profileCard {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  background: var(--surface);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 1.5rem 2.5rem;
+  position: relative;
+  z-index: 1;
+  transition: box-shadow 0.3s, transform 0.3s;
+  animation: fadeInUp 0.7s cubic-bezier(0.4,0,0.2,1);
+  min-width: 320px;
+}
+.profileCard:hover {
+  box-shadow: 0 8px 32px rgba(139,92,246,0.12);
+  transform: translateY(-2px) scale(1.02);
+}
+
+.profileCard h2 {
+  color: var(--text-primary);
+  font-size: 2.1rem;
+  font-weight: 800;
+  margin-bottom: 0.4rem;
+  letter-spacing: -0.01em;
+}
+.profileCard .greeting {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.profileCard p {
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
+}
+
+.avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: var(--bg-tertiary);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.3rem;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  border: 3px solid var(--primary);
+  outline: 4px solid var(--bg-primary);
+  transition: box-shadow 0.3s, border-color 0.3s;
+  margin-right: 1.5rem;
+}
+
+.divider {
+  width: 2px;
+  height: 70px;
+  background: linear-gradient(var(--primary), var(--secondary));
+  border-radius: 2px;
+  margin: 0 2.5rem;
+  opacity: 0.18;
+}
+
+.statsRow {
+  display: flex;
+  gap: 2.5rem;
+  align-items: center;
+  z-index: 1;
+  min-width: 260px;
+}
+
+.statsRow > div {
+  margin-right: 1.5rem;
+}
+
+.statIcon {
+  font-size: 1.3rem;
+  margin-bottom: 0.2rem;
+  display: block;
+}
+.statIcon.recipes { color: #8b5cf6; }
+.statIcon.favorites { color: #06b6d4; }
+.statIcon.completed { color: #10b981; }
+
+.statValue {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #00897b;
+  text-align: center;
+}
+
+.statLabel {
+  display: block;
+  font-size: 0.95rem;
+  color: #666;
+  text-align: center;
+}
+
+.addBtn {
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.85rem 1.7rem;
+  font-size: 1.08rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 8px rgba(139,92,246,0.08);
+  animation: fadeInUp 0.9s 0.1s cubic-bezier(0.4,0,0.2,1);
+  margin-left: 2.5rem;
+}
+.addBtn:hover {
+  background: linear-gradient(90deg, var(--secondary), var(--primary));
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 6px 24px rgba(139,92,246,0.18);
+}
+
+/* Animation for entry */
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  .headerRow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2rem;
+  }
+  .dashboardRoot {
+    padding: 1rem 0.5rem;
+  }
+  .profileCard {
+    min-width: 0;
+    width: 100%;
+    padding: 1.5rem 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .divider {
+    display: none;
+  }
+  .statsRow {
+    width: 100%;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .avatar {
+    width: 56px;
+    height: 56px;
+    font-size: 1.5rem;
+  }
+  .addBtn {
+    margin-left: 0;
+    margin-top: 1.2rem;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Dark mode overrides for dashboard profile */
+.dark .dashboardRoot {
+  background: var(--bg-primary);
+}
+.dark .profileCard {
+  background: var(--bg-secondary);
+}
+.dark .profileCard h2 {
+  color: var(--text-primary);
+}
+.dark .avatar {
+  background: var(--bg-tertiary);
+  color: var(--primary);
+  border-color: var(--secondary);
+} 

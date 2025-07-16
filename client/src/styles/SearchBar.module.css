@@ -1,0 +1,154 @@
+.searchContainer {
+  margin-bottom: 2rem;
+}
+
+.searchInputContainer {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6C757D;
+  font-size: 1.1rem;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 1rem 1rem 1rem 3rem;
+  border: 2px solid #E9ECEF;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: white;
+  color: #222;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #FF6B6B;
+  box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+}
+
+.clearButton {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #6C757D;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.clearButton:hover {
+  background: #E9ECEF;
+  color: #495057;
+}
+
+.tagFilters {
+  background: #F8F9FA;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #E9ECEF;
+}
+
+.tagFilters h4 {
+  margin: 0 0 1rem 0;
+  color: #2C3E50;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.tagButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.tagButton {
+  padding: 0.5rem 1rem;
+  background: white;
+  border: 2px solid #E9ECEF;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: #495057;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.tagButton:hover {
+  border-color: #FF6B6B;
+  color: #FF6B6B;
+  transform: translateY(-1px);
+}
+
+.tagButtonActive {
+  background: #FF6B6B;
+  border-color: #FF6B6B;
+  color: white;
+}
+
+.tagButtonActive:hover {
+  background: #FF5252;
+  border-color: #FF5252;
+  color: white;
+}
+
+.clearTagsButton {
+  padding: 0.5rem 1rem;
+  background: #6C757D;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.clearTagsButton:hover {
+  background: #5A6268;
+  transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .searchInput {
+    padding: 0.875rem 1rem 0.875rem 2.5rem;
+  }
+  
+  .searchIcon {
+    left: 0.75rem;
+  }
+  
+  .clearButton {
+    right: 0.75rem;
+  }
+  
+  .tagFilters {
+    padding: 1rem;
+  }
+  
+  .tagButtons {
+    gap: 0.375rem;
+  }
+  
+  .tagButton {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8rem;
+  }
+} 

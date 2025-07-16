@@ -1,0 +1,775 @@
+.mealPlannerContainer {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 8px 32px 8px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.header h2 {
+  margin: 0 0 14px 0;
+  color: var(--text-primary);
+  font-size: 2.1rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.header p {
+  margin: 0 0 30px 0;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+.headerControls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 28px;
+  margin-bottom: 10px;
+}
+
+.weekNavigation {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.navButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: none;
+}
+
+.navButton:hover {
+  border-color: var(--primary);
+  background: var(--bg-tertiary);
+}
+
+.weekDisplay {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  min-width: 180px;
+  text-align: center;
+}
+
+.generateListButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 700;
+  font-size: 1.05rem;
+  box-shadow: 0 2px 8px rgba(139,92,246,0.08);
+}
+
+.generateListButton:hover:not(:disabled) {
+  background: linear-gradient(90deg, var(--secondary), var(--primary));
+  transform: translateY(-2px) scale(1.03);
+}
+
+.generateListButton:disabled {
+  background: var(--text-secondary);
+  cursor: not-allowed;
+  transform: none;
+}
+
+.mealPlanGrid {
+  background: var(--bg-secondary);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  margin-bottom: 36px;
+  padding: 12px 0 18px 0;
+}
+
+.dayHeaders {
+  display: grid;
+  grid-template-columns: 140px repeat(7, 1fr);
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  font-size: 1.05rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.mealTypeHeader {
+  padding: 18px 0;
+  font-weight: 700;
+  background: transparent;
+}
+
+.dayHeader {
+  padding: 18px 6px 10px 6px;
+  text-align: center;
+  border-left: none;
+}
+
+.dayName {
+  font-weight: 700;
+  font-size: 1.08rem;
+  margin-bottom: 2px;
+}
+
+.dayDate {
+  font-size: 0.95rem;
+  opacity: 0.7;
+}
+
+.mealRow {
+  display: grid;
+  grid-template-columns: 140px repeat(7, 1fr);
+  border-bottom: 1px solid var(--border);
+  min-height: 70px;
+}
+
+.mealRow:last-child {
+  border-bottom: none;
+}
+
+.mealTypeLabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 0 18px 0;
+  background: transparent;
+  font-weight: 600;
+  color: var(--text-primary);
+  border-right: none;
+  font-size: 1.05rem;
+}
+
+.mealTypeLabel i {
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+
+.mealSlot {
+  padding: 10px 4px;
+  border-right: none;
+  min-height: 70px;
+  cursor: pointer;
+  transition: background 0.2s;
+  position: relative;
+  background: var(--surface);
+  border-radius: 8px;
+  margin: 4px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+}
+
+.mealSlot:hover {
+  background: var(--bg-tertiary);
+}
+
+.mealSlot:last-child {
+  border-right: none;
+}
+
+.emptySlot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-secondary);
+  border: 1.5px dashed var(--border);
+  border-radius: 8px;
+  transition: border 0.2s, color 0.2s;
+  background: transparent;
+  font-size: 1rem;
+  padding: 10px 0;
+}
+
+.emptySlot:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.emptySlot i {
+  font-size: 1.2rem;
+  margin-bottom: 4px;
+}
+
+.emptySlot span {
+  font-size: 0.98rem;
+  font-weight: 500;
+}
+
+/* Recipe Cards in Slots */
+.recipeCard {
+  background: var(--bg-primary);
+  border-radius: 8px;
+  padding: 10px;
+  height: 100%;
+  position: relative;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.recipeCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.recipeImage {
+  width: 40px;
+  height: 40px;
+  background: var(--primary-color);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  margin-bottom: 8px;
+}
+
+.recipeInfo h4 {
+  margin: 0 0 5px 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.recipeTime {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+.recipeTime i {
+  font-size: 8px;
+}
+
+.removeButton {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: var(--danger-color);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 10px;
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+
+.recipeCard:hover .removeButton {
+  opacity: 1;
+}
+
+.removeButton:hover {
+  background: var(--danger-color-dark);
+  transform: scale(1.1);
+}
+
+/* Stats */
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 30px;
+}
+
+.statItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 20px;
+  background: var(--bg-secondary);
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+}
+
+.statItem i {
+  color: var(--primary-color);
+  font-size: 18px;
+}
+
+.statItem span {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Modal Styles */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal {
+  background: var(--bg-primary);
+  border-radius: 12px;
+  max-width: 800px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.modalHeader h3 {
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 18px;
+  padding: 5px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* Recipe Suggestions */
+.recipeSuggestions {
+  padding: 20px;
+}
+
+.recipeSuggestions h4 {
+  margin: 0 0 15px 0;
+  color: var(--text-primary);
+  font-size: 16px;
+}
+
+.recipeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.suggestionCard {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.suggestionCard:hover {
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.suggestionImage {
+  width: 50px;
+  height: 50px;
+  background: var(--primary-color);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.suggestionInfo h5 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.suggestionTime, .suggestionRating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 5px;
+}
+
+.suggestionTime i, .suggestionRating i {
+  font-size: 10px;
+}
+
+.suggestionRating {
+  color: #f59e0b;
+}
+
+/* Grocery List */
+.groceryList {
+  padding: 20px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.categorySection {
+  margin-bottom: 25px;
+}
+
+.categoryHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 15px 0;
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.categoryIcon {
+  font-size: 20px;
+}
+
+.categoryItems {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.groceryItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 15px;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+}
+
+.groceryItem.checked {
+  opacity: 0.6;
+  background: var(--bg-hover);
+}
+
+.groceryItem.checked .itemName {
+  text-decoration: line-through;
+}
+
+.itemCheckbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.itemCheckbox input {
+  display: none;
+}
+
+.checkmark {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--border-color);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.itemCheckbox input:checked + .checkmark {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.itemCheckbox input:checked + .checkmark::after {
+  content: '✓';
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.itemQuantity {
+  font-weight: 600;
+  color: var(--primary-color);
+  min-width: 30px;
+}
+
+.itemName {
+  flex: 1;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  padding: 20px;
+  border-top: 1px solid var(--border-color);
+}
+
+.copyButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.copyButton:hover {
+  background: var(--primary-color-dark);
+}
+
+.dayCardsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+}
+
+.dayCard {
+  background: var(--surface);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  padding: 1.5rem 1.2rem 1.2rem 1.2rem;
+  min-width: 260px;
+  max-width: 320px;
+  flex: 1 1 280px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+  transition: box-shadow 0.2s, transform 0.2s;
+  position: relative;
+}
+.dayCard:hover {
+  box-shadow: 0 8px 32px rgba(139,92,246,0.10);
+  transform: translateY(-2px) scale(1.01);
+}
+
+.dayCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.1rem;
+}
+.dayCardName {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+.dayCardDate {
+  font-size: 0.98rem;
+  color: var(--text-secondary);
+  margin-top: 0.1rem;
+}
+.expandBtn {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+.expandBtn:hover {
+  background: var(--bg-tertiary);
+}
+
+.dayCardMeals {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+.dayCardMealSlot {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background: var(--bg-secondary);
+  border-radius: 10px;
+  padding: 0.7rem 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  min-height: 56px;
+  position: relative;
+}
+.dayCardMealSlot:hover {
+  background: var(--bg-tertiary);
+}
+.dayCardMealType {
+  font-weight: 600;
+  color: var(--text-primary);
+  min-width: 80px;
+  font-size: 1.05rem;
+}
+.dayCardRecipe {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.dayCardRecipeTitle {
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+.dayCardRecipeTime {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.dayCardRemoveBtn {
+  background: none;
+  border: none;
+  color: var(--danger, #ef4444);
+  font-size: 1.1rem;
+  cursor: pointer;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+.dayCardRemoveBtn:hover {
+  background: var(--danger, #ef4444);
+  color: #fff;
+}
+.dayCardEmpty {
+  color: var(--text-muted);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.statsModalContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  padding: 2rem 1.5rem 2.5rem 1.5rem;
+  align-items: flex-start;
+}
+
+@media (max-width: 1024px) {
+  .mealPlanGrid {
+    padding: 0;
+  }
+  .dayHeaders {
+    grid-template-columns: 100px repeat(7, 1fr);
+    font-size: 0.98rem;
+  }
+  .mealRow {
+    grid-template-columns: 100px repeat(7, 1fr);
+    min-height: 56px;
+  }
+  .mealTypeLabel {
+    font-size: 0.98rem;
+    padding: 12px 0 12px 0;
+  }
+  .mealSlot {
+    min-height: 56px;
+    margin: 2px;
+  }
+}
+
+@media (max-width: 768px) {
+  .headerControls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .weekNavigation {
+    justify-content: center;
+  }
+  
+  .stats {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .mealPlanGrid {
+    overflow-x: auto;
+  }
+  
+  .dayHeaders {
+    grid-template-columns: 100px repeat(7, 120px);
+    min-width: 940px;
+  }
+  
+  .mealRow {
+    grid-template-columns: 100px repeat(7, 120px);
+    min-width: 940px;
+  }
+  
+  .modal {
+    margin: 10px;
+    max-height: 90vh;
+  }
+  
+  .recipeGrid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+} 
+
+@media (max-width: 900px) {
+  .dayCardsContainer {
+    flex-direction: column;
+    gap: 1.2rem;
+    align-items: center;
+  }
+  .dayCard {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1.2rem;
+  }
+} 
