@@ -21,7 +21,11 @@ app.use((req, res, next) => {
 
 // Middleware
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  origin: [
+    'http://localhost:5173',
+    'https://finalplp-project-git-main-gitaumarggys-projects.vercel.app',
+    'https://finalplp-project.vercel.app'
+  ],
   credentials: true
 }));
 app.use(helmet());
