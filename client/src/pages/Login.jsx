@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from '../styles/Auth.module.css';
+import API from '../services/api';
 
 const Login = ({ onLogin }) => {
   const [formData, setFormData] = useState({
@@ -56,26 +57,15 @@ const Login = ({ onLogin }) => {
     setIsLoading(true);
     
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await API.post('/auth/login', formData);
+      const data = response.data;
 
-      const data = await response.json();
-
-      if (response.ok) {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data));
-        if (typeof onLogin === 'function') onLogin();
-        navigate('/');
-      } else {
-        setErrors({ general: data.message || 'Login failed' });
-      }
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data));
+      if (typeof onLogin === 'function') onLogin();
+      navigate('/');
     } catch (error) {
-      setErrors({ general: 'Network error. Please try again.' });
+      setErrors({ general: error.response?.data?.message || 'Login failed' });
     } finally {
       setIsLoading(false);
     }
