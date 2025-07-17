@@ -61,7 +61,7 @@ const Login = ({ onLogin }) => {
       const data = response.data;
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
-      if (typeof onLogin === 'function') onLogin();
+      // if (typeof onLogin === 'function') onLogin(); // Removed to prevent build errors
       window.location.reload(); // Force reload to update Navbar
       navigate('/');
     } catch (error) {
