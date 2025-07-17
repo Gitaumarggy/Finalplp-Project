@@ -251,7 +251,7 @@ const Register = () => {
 
           <div className={styles.formOptions}>
             <label className={styles.checkbox}>
-              <input type="checkbox" required />
+              <input type="checkbox" name="terms" required />
               <span className={styles.checkmark}></span>
               I agree to the Terms of Service and Privacy Policy
             </label>

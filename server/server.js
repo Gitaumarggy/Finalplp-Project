@@ -21,7 +21,16 @@ app.use((req, res, next) => {
 });
 
 // Middleware
-app.use(cors({ origin: true, credentials: true }));
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://finalplp-project-pi.vercel.app', // Vercel frontend
+  'https://finalplp-project.onrender.com'  // Backend itself (optional)
+];
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true
+}));
 app.use(helmet());
 
 const limiter = rateLimit({
