@@ -11,6 +11,7 @@ const connectDB = require('./config/db');
 
 // Initialize Express app
 const app = express();
+app.set('trust proxy', 1); // Trust first proxy (Render, Heroku, etc.)
 const PORT = process.env.PORT || 5000;
 
 // Debug middleware to log all requests

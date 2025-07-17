@@ -27,16 +27,19 @@ exports.registerUser = async (req, res) => {
 // @access  Public
 exports.loginUser = async (req, res) => {
   try {
+    console.log('Login attempt:', req.body); // Log incoming request
     const { email, password } = req.body;
     
     // Find user by email
     const user = await User.findOne({ email });
+    console.log('User found:', user ? user.email : null); // Log user lookup result
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
     
     // Check password
     const isMatch = await user.matchPassword(password);
+    console.log('Password match:', isMatch); // Log password comparison result
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
