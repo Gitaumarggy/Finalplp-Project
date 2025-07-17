@@ -83,7 +83,9 @@ const Register = () => {
     setIsLoading(true);
     
     try {
-      const response = await API.post('/auth/register', { ...formData, role: 'user' });
+      // Only send required fields to backend
+      const { firstName, lastName, email, username, password } = formData;
+      const response = await API.post('/auth/register', { firstName, lastName, email, username, password });
       const data = response.data;
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));

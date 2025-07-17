@@ -18,6 +18,8 @@ import MealPlannerPage from './pages/MealPlannerPage';
 import AIGeneratorPage from './pages/AIGeneratorPage';
 import CollectionsPage from './pages/CollectionsPage';
 import ShoppingListsPage from './pages/ShoppingListsPage';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -77,6 +79,8 @@ function App() {
               <Register onRegister={() => setIsAuthenticated(true)} />
             </PublicRoute>
           } />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
 
           {/* Protected Routes */}
           <Route path="/" element={

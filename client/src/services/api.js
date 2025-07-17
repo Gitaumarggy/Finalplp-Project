@@ -1,13 +1,7 @@
 import axios from 'axios';
 
-// Use deployed backend
-const API_BASE_URL = 'https://finalplp-project.onrender.com/api';
-
-// Debug: Log the base URL to see what's being used
-console.log('Using API Base URL:', API_BASE_URL);
-
 const API = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: '/api',
 });
 
 API.interceptors.request.use((req) => {
@@ -16,7 +10,7 @@ API.interceptors.request.use((req) => {
         req.headers.Authorization = `Bearer ${token}`;
     }
     return req;
-});     
+});
 
 export default API;
 

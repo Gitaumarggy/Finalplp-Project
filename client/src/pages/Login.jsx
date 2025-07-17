@@ -59,9 +59,8 @@ const Login = ({ onLogin }) => {
     try {
       const response = await API.post('/auth/login', formData);
       const data = response.data;
-
       localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data));
+      localStorage.setItem('user', JSON.stringify(data.user));
       if (typeof onLogin === 'function') onLogin();
       window.location.reload(); // Force reload to update Navbar
       navigate('/');

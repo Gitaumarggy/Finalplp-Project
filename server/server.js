@@ -2,96 +2,50 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const path = require('path');
-const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
 
-// Import custom DB connection
+// Custom DB connection
 const connectDB = require('./config/db');
 
-// Initialize Express app
+// Initialize Express
 const app = express();
-app.set('trust proxy', 1); // Trust first proxy (Render, Heroku, etc.)
 const PORT = process.env.PORT || 5000;
 
-// Debug middleware to log all requests
-app.use((req, res, next) => {
-  console.log(`${req.method} ${req.url}`);
-  next();
-});
-
 // Middleware
-const allowedOrigins = [
-  'http://localhost:5173',
-  'https://finalplp-project-pi.vercel.app', // Vercel frontend
-  'https://finalplp-project.onrender.com'  // Backend itself (optional)
-];
-
 app.use(cors({
-  origin: allowedOrigins,
+  origin: true,
   credentials: true
 }));
-app.use(helmet());
+app.use(express.json());
 
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100
-});
-app.use('/api/', limiter);
-
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use(express.static(path.join(__dirname, 'public')));
-
-// API Routes
-app.use('/api/recipes', require('./routes/recipes'));
+// Routes
+app.use('/api/auth', require('./routes/auth'));
 app.use('/api/users', require('./routes/users'));
+app.use('/api/recipes', require('./routes/recipes'));
 app.use('/api/sessions', require('./routes/sessions'));
 app.use('/api/reviews', require('./routes/reviews'));
-app.use('/api/auth', require('./routes/auth'));
 app.use('/api/collections', require('./routes/collections'));
 app.use('/api/challenges', require('./routes/challenges'));
 
-// Health & root routes
-app.get('/api/health', (req, res) => {
-  res.json({
-    status: 'OK',
-    message: 'Recipe App API is running',
-    timestamp: new Date().toISOString()
-  });
-});
-
-app.get('/api/test', (req, res) => {
-  res.json({
-    message: 'Backend is working!',
-    timestamp: new Date().toISOString()
-  });
-});
-
+// Health Check
 app.get('/', (req, res) => {
-  res.send('API server is running!');
+  res.send('API is running...');
 });
 
+// Fallback for unknown routes
 app.use('*', (req, res) => {
   res.status(404).json({ message: 'Route not found' });
 });
 
+// Error Handling
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ message: 'Something went wrong!', error: err.message });
+  res.status(500).json({ message: err.message || 'Server error' });
 });
 
-// ✅ Connect to DB and start server
+// Start Server
 connectDB().then(() => {
   app.listen(PORT, () => {
-    console.log(` Server running on port ${PORT}`);
-
+    console.log(`Server running on port ${PORT}`);
   });
 }).catch((err) => {
-  console.error('Failed to connect to MongoDB:', err.message);
-  process.exit(1);
+  console.error('MongoDB connection failed:', err.message);
 });
-
-module.exports = app;
