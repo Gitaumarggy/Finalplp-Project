@@ -76,7 +76,6 @@ const Register = () => {
       const data = response.data;
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
-      window.location.reload(); // Force reload to update Navbar
       navigate('/');
     } catch (error) {
       setErrors({ general: error.response?.data?.message || 'Registration failed' });
