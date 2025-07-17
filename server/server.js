@@ -13,13 +13,14 @@ const PORT = process.env.PORT || 5000;
 // Allowed frontend origins (local + deployed Vercel)
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://finalplp-project-nine.vercel.app'
+  'https://finalplp-project-nine.vercel.app',
+  'https://finalplp-project-gitaumarggys-projects.vercel.app' // <-- Add your deployed Vercel frontend
 ];
 
 // CORS Middleware
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl)
+    // Allow requests with no origin (like mobile apps, curl, or health checks)
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -53,6 +54,9 @@ app.use('*', (req, res) => {
 
 // Global Error Handler
 app.use((err, req, res, next) => {
+  if (err.message === 'Not allowed by CORS') {
+    return res.status(403).json({ message: 'CORS error: Origin not allowed' });
+  }
   console.error(err.stack);
   res.status(500).json({ message: err.message || 'Server error' });
 });
