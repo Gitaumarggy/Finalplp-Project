@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 
 
 
@@ -93,6 +94,49 @@ exports.verifyToken = async (req, res) => {
   } catch (err) {
     res.status(401).json({ message: 'Invalid token' });
   }
+};
+
+// @desc    Request password reset
+// @route   POST /api/auth/forgot-password
+// @access  Public
+exports.requestPasswordReset = async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+  if (!user) {
+    return res.status(200).json({ message: 'If that email exists, a reset link has been sent.' });
+  }
+  // Generate token
+  const resetToken = crypto.randomBytes(32).toString('hex');
+  const resetTokenHash = crypto.createHash('sha256').update(resetToken).digest('hex');
+  user.resetPasswordToken = resetTokenHash;
+  user.resetPasswordExpire = Date.now() + 1000 * 60 * 15; // 15 minutes
+  await user.save();
+  // For now, just log the token (in production, send via email)
+  console.log(`Password reset token for ${email}: ${resetToken}`);
+  res.status(200).json({ message: 'If that email exists, a reset link has been sent.' });
+};
+
+// @desc    Reset password
+// @route   POST /api/auth/reset-password
+// @access  Public
+exports.resetPassword = async (req, res) => {
+  const { token, password } = req.body;
+  if (!token || !password) {
+    return res.status(400).json({ message: 'Token and new password are required.' });
+  }
+  const resetTokenHash = crypto.createHash('sha256').update(token).digest('hex');
+  const user = await User.findOne({
+    resetPasswordToken: resetTokenHash,
+    resetPasswordExpire: { $gt: Date.now() }
+  });
+  if (!user) {
+    return res.status(400).json({ message: 'Invalid or expired token.' });
+  }
+  user.password = password;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpire = undefined;
+  await user.save();
+  res.status(200).json({ message: 'Password has been reset. You can now log in.' });
 };
 
 // helper to send token response 
