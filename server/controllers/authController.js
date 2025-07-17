@@ -3,66 +3,67 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 
-
-
 // @desc    Register new user
 // @route   POST /api/auth/register
 // @access  Public
 exports.registerUser = async (req, res) => {
-    const { firstName, lastName, email, username, password } = req.body; // remove role from destructure
+  try {
+    const { firstName, lastName, email, username, password } = req.body;
 
     const userExists = await User.findOne({ email });
-    if (userExists) return res.status(400).json({ message: 'User already exists' });
-  
-    const hashedPassword = await bcrypt.hash(password, 10);
-    // Always set role to 'user'
-    const user = await User.create({ firstName, lastName, email, username, password: hashedPassword, role: 'user' });
-  
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '30d' });
-    res.json({ user: { ...user._doc, password: undefined }, token });
-  };
-  
+    if (userExists) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
 
-// @desc    login  user
+    // Let mongoose schema handle password hashing
+    const user = new User({
+      firstName,
+      lastName,
+      email,
+      username,
+      password,
+      role: 'user'
+    });
+
+    await user.save();
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '30d' });
+
+    res.json({ user: { ...user._doc, password: undefined }, token });
+  } catch (error) {
+    console.error('Register error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// @desc    Login user
 // @route   POST /api/auth/login
 // @access  Public
 exports.loginUser = async (req, res) => {
   try {
-    console.log('Login attempt:', req.body); // Log incoming request
     const { email, password } = req.body;
-    // Find user by email
+
     const user = await User.findOne({ email });
-    console.log('User found:', user ? user.email : null); // Log user lookup result
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
-    // Fix: Handle plain text passwords
-    let isMatch = false;
-    if (user.password.startsWith('$2')) {
-      isMatch = await user.matchPassword(password);
-    } else {
-      if (password === user.password) {
-        user.password = await bcrypt.hash(password, 10);
-        await user.save();
-        isMatch = true;
-      }
-    }
-    console.log('Password match:', isMatch); // Log password comparison result
+
+    const isMatch = await user.matchPassword(password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
-    // Generate token
+
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '30d' });
-    // Send response
-    res.json({ 
-      user: { 
+
+    res.json({
+      user: {
         _id: user._id,
         email: user.email,
         username: user.username,
         role: user.role,
         profile: user.profile
-      }, 
-      token 
+      },
+      token
     });
   } catch (error) {
     console.error('Login error:', error);
@@ -110,14 +111,16 @@ exports.requestPasswordReset = async (req, res) => {
   if (!user) {
     return res.status(200).json({ message: 'If that email exists, a reset link has been sent.' });
   }
-  // Generate token
+
   const resetToken = crypto.randomBytes(32).toString('hex');
   const resetTokenHash = crypto.createHash('sha256').update(resetToken).digest('hex');
+
   user.resetPasswordToken = resetTokenHash;
-  user.resetPasswordExpire = Date.now() + 1000 * 60 * 15; // 15 minutes
+  user.resetPasswordExpire = Date.now() + 15 * 60 * 1000; // 15 minutes
   await user.save();
-  // For now, just log the token (in production, send via email)
+
   console.log(`Password reset token for ${email}: ${resetToken}`);
+
   res.status(200).json({ message: 'If that email exists, a reset link has been sent.' });
 };
 
@@ -129,45 +132,23 @@ exports.resetPassword = async (req, res) => {
   if (!token || !password) {
     return res.status(400).json({ message: 'Token and new password are required.' });
   }
+
   const resetTokenHash = crypto.createHash('sha256').update(token).digest('hex');
+
   const user = await User.findOne({
     resetPasswordToken: resetTokenHash,
     resetPasswordExpire: { $gt: Date.now() }
   });
+
   if (!user) {
     return res.status(400).json({ message: 'Invalid or expired token.' });
   }
-  user.password = await bcrypt.hash(password, 10); // Hash the new password
+
+  user.password = password; // Let schema hash it
   user.resetPasswordToken = undefined;
   user.resetPasswordExpire = undefined;
+
   await user.save();
+
   res.status(200).json({ message: 'Password has been reset. You can now log in.' });
 };
-
-// helper to send token response 
-const sendTokenResponse = (user, statusCode, res) => {
-  const token = generateToken(user._id);
-
-  const options = {
-    expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000),
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-  };
-  res
-  .status(statusCode)
-  .cookie('token', token, options)
-  .json({ 
-    success: true, 
-    user: {
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-    },
-  });
-};
-
-
-
-
