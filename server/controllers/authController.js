@@ -30,24 +30,29 @@ exports.loginUser = async (req, res) => {
   try {
     console.log('Login attempt:', req.body); // Log incoming request
     const { email, password } = req.body;
-    
     // Find user by email
     const user = await User.findOne({ email });
     console.log('User found:', user ? user.email : null); // Log user lookup result
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
-    
-    // Check password
-    const isMatch = await user.matchPassword(password);
+    // Fix: Handle plain text passwords
+    let isMatch = false;
+    if (user.password.startsWith('$2')) {
+      isMatch = await user.matchPassword(password);
+    } else {
+      if (password === user.password) {
+        user.password = await bcrypt.hash(password, 10);
+        await user.save();
+        isMatch = true;
+      }
+    }
     console.log('Password match:', isMatch); // Log password comparison result
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
-    
     // Generate token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '30d' });
-    
     // Send response
     res.json({ 
       user: { 
