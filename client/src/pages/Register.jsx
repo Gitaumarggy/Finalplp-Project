@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from '../styles/Auth.module.css';
+import API from '../services/api';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -82,27 +83,15 @@ const Register = () => {
     setIsLoading(true);
     
     try {
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ ...formData, role: 'user' }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-        if (typeof onRegister === 'function') onRegister();
-        window.location.reload(); // Force reload to update Navbar
-        navigate('/');
-      } else {
-        setErrors({ general: data.message || 'Registration failed' });
-      }
+      const response = await API.post('/auth/register', { ...formData, role: 'user' });
+      const data = response.data;
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      if (typeof onRegister === 'function') onRegister();
+      window.location.reload(); // Force reload to update Navbar
+      navigate('/');
     } catch (error) {
-      setErrors({ general: 'Network error. Please try again.' });
+      setErrors({ general: error.response?.data?.message || 'Registration failed' });
     } finally {
       setIsLoading(false);
     }
