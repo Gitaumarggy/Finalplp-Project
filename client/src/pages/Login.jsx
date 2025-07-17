@@ -57,7 +57,7 @@ const Login = ({ onLogin }) => {
     setIsLoading(true);
     
     try {
-      const response = await API.post('/auth/login', formData);
+      const response = await API.post('/api/auth/login', formData);
       const data = response.data;
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
