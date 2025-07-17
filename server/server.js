@@ -10,14 +10,29 @@ const connectDB = require('./config/db');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
+// Allowed frontend origins (local + deployed Vercel)
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://finalplp-project-nine.vercel.app'
+];
+
+// CORS Middleware
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
+
+// Body parser
 app.use(express.json());
 
-// Routes
+// API Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/recipes', require('./routes/recipes'));
@@ -31,21 +46,24 @@ app.get('/', (req, res) => {
   res.send('API is running...');
 });
 
-// Fallback for unknown routes
+// Fallback Route (for unmatched API requests)
 app.use('*', (req, res) => {
   res.status(404).json({ message: 'Route not found' });
 });
 
-// Error Handling
+// Global Error Handler
 app.use((err, req, res, next) => {
+  console.error(err.stack);
   res.status(500).json({ message: err.message || 'Server error' });
 });
 
-// Start Server
-connectDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+// Connect to MongoDB and Start Server
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(` Server running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error(' MongoDB connection failed:', err.message);
   });
-}).catch((err) => {
-  console.error('MongoDB connection failed:', err.message);
-});
