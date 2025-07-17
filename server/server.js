@@ -20,14 +20,7 @@ app.use((req, res, next) => {
 });
 
 // Middleware
-app.use(cors({
-  origin: [
-    'http://localhost:5173',
-    'https://finalplp-project-git-main-gitaumarggys-projects.vercel.app',
-    'https://finalplp-project.vercel.app'
-  ],
-  credentials: true
-}));
+app.use(cors({ origin: true, credentials: true }));
 app.use(helmet());
 
 const limiter = rateLimit({
