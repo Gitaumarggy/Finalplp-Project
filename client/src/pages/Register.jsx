@@ -72,7 +72,7 @@ const Register = () => {
     setIsLoading(true);
     try {
       const { firstName, lastName, email, username, password } = formData;
-      const response = await API.post('/api/auth/register', { firstName, lastName, email, username, password });
+      const response = await API.post('/auth/register', { firstName, lastName, email, username, password });
       const data = response.data;
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
@@ -184,8 +184,9 @@ const Register = () => {
                 type="button"
                 className={styles.passwordToggle}
                 onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
               >
-                {showPassword ? '🙈' : '👁️'}
+                <i className={`fas ${showPassword ? 'fa-eye' : 'fa-eye-slash'}`}></i>
               </button>
             </div>
             {errors.password && <span className={styles.fieldError}>{errors.password}</span>}
@@ -208,8 +209,9 @@ const Register = () => {
                 type="button"
                 className={styles.passwordToggle}
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
               >
-                {showConfirmPassword ? '🙈' : '👁️'}
+                <i className={`fas ${showConfirmPassword ? 'fa-eye' : 'fa-eye-slash'}`}></i>
               </button>
             </div>
             {errors.confirmPassword && <span className={styles.fieldError}>{errors.confirmPassword}</span>}

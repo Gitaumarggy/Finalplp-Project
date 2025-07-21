@@ -402,20 +402,13 @@ const UserProfile = () => {
           )}
           {isOwnProfile && (
             <button 
-              className={`${styles.tabButton} ${activeTab === 'collections' ? styles.active : ''}`}
-              onClick={() => setActiveTab('collections')}
+              className={`${styles.tabButton} ${activeTab === 'reviews' ? styles.active : ''}`}
+              onClick={() => setActiveTab('reviews')}
             >
-              <i className="fas fa-folder"></i>
-              Collections
+              <i className="fas fa-comments"></i>
+              Reviews ({reviews.length})
             </button>
           )}
-          <button 
-            className={`${styles.tabButton} ${activeTab === 'reviews' ? styles.active : ''}`}
-            onClick={() => setActiveTab('reviews')}
-          >
-            <i className="fas fa-comments"></i>
-            Reviews ({reviews.length})
-          </button>
         </div>
 
         <div className={styles.tabContent}>
@@ -575,11 +568,6 @@ const UserProfile = () => {
                 </div>
               </div>
             </div>
-          )}
-
-          {/* Collections Tab */}
-          {activeTab === 'collections' && isOwnProfile && (
-            <RecipeCollections />
           )}
 
           {/* Reviews Tab */}

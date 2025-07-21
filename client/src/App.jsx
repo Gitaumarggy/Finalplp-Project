@@ -16,7 +16,6 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import MealPlannerPage from './pages/MealPlannerPage';
 import AIGeneratorPage from './pages/AIGeneratorPage';
-import CollectionsPage from './pages/CollectionsPage';
 import ShoppingListsPage from './pages/ShoppingListsPage';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
@@ -66,9 +65,10 @@ function App() {
   return (
     <ThemeProvider>
       <Router>
-        {isAuthenticated && <Navbar onLogout={() => setIsAuthenticated(false)} />}
+        <Navbar onLogout={() => setIsAuthenticated(false)} />
         <Routes>
           {/* Public Routes */}
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={
             <PublicRoute>
               <Login onLogin={() => setIsAuthenticated(true)} />
@@ -83,11 +83,6 @@ function App() {
           <Route path="/reset-password" element={<ResetPassword />} />
 
           {/* Protected Routes */}
-          <Route path="/" element={
-            <ProtectedRoute>
-              <Home />
-            </ProtectedRoute>
-          } />
           <Route path="/dashboard" element={
             <ProtectedRoute>
               <Dashboard />
@@ -121,11 +116,6 @@ function App() {
           <Route path="/ai-generator" element={
             <ProtectedRoute>
               <AIGeneratorPage />
-            </ProtectedRoute>
-          } />
-          <Route path="/collections" element={
-            <ProtectedRoute>
-              <CollectionsPage />
             </ProtectedRoute>
           } />
           <Route path="/shopping-lists" element={

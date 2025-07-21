@@ -157,6 +157,67 @@
   box-shadow: 0 6px 24px rgba(139,92,246,0.18);
 }
 
+.profilePrompt {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #fffbe9;
+  color: #b45309;
+  border: 1.5px solid #fde68a;
+  border-radius: 10px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.08rem;
+  box-shadow: 0 2px 8px rgba(251, 191, 36, 0.08);
+}
+.profilePromptBtn {
+  background: #fbbf24;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 1.1rem;
+  font-weight: 600;
+  margin-left: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.profilePromptBtn:hover {
+  background: #f59e0b;
+}
+
+.communityFeed {
+  background: #f3f4f6;
+  border-radius: 12px;
+  margin-top: 2.5rem;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.feedList {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0 0;
+}
+.feedItem {
+  padding: 0.7rem 0;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 1.05rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.feedItem:last-child {
+  border-bottom: none;
+}
+.feedUser {
+  font-weight: 700;
+  color: #6366f1;
+}
+.feedTime {
+  color: #888;
+  font-size: 0.95rem;
+  margin-left: auto;
+}
+
 /* Animation for entry */
 @keyframes fadeInUp {
   0% { opacity: 0; transform: translateY(30px); }

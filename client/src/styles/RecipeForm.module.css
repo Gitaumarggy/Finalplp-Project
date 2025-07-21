@@ -155,6 +155,19 @@
   transform: translateY(0);
 }
 
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.leftColumn, .rightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .recipeForm {
@@ -172,5 +185,12 @@
   
   .addTagButton {
     align-self: flex-start;
+  }
+}
+
+@media (max-width: 900px) {
+  .formGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 }

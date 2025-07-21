@@ -57,7 +57,7 @@ const Login = ({ onLogin }) => {
     setIsLoading(true);
     
     try {
-      const response = await API.post('/api/auth/login', formData);
+      const response = await API.post('/auth/login', formData);
       const data = response.data;
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
@@ -115,14 +115,17 @@ const Login = ({ onLogin }) => {
                 className={`${styles.input} ${errors.password ? styles.error : ''}`}
                 placeholder="Enter your password"
                 autoComplete="current-password"
+                onFocus={e => e.target.parentNode.classList.add(styles.inputFocus)}
+                onBlur={e => e.target.parentNode.classList.remove(styles.inputFocus)}
               />
-              <span className={styles.inputIcon}>🔒</span>
+              {/* Only show the eye icon as the toggle */}
               <button
                 type="button"
                 className={styles.passwordToggle}
                 onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
               >
-                {showPassword ? '🙈' : '👁️'}
+                <i className={`fas ${showPassword ? 'fa-eye' : 'fa-eye-slash'}`}></i>
               </button>
             </div>
             {errors.password && <span className={styles.fieldError}>{errors.password}</span>}

@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/Dashboard.module.css';
+import homeStyles from '../styles/Home.module.css';
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState(() => {
+    const hash = window.location.hash.replace('#', '');
+    return hash || 'overview';
+  });
   const [stats, setStats] = useState({});
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  // Community Feed State
+  const [communityFeed, setCommunityFeed] = useState([]);
+  const [feedLoading, setFeedLoading] = useState(true);
+  const [feedError, setFeedError] = useState('');
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -17,6 +26,26 @@ const Dashboard = () => {
     }
     fetchUserData();
   }, [navigate]);
+
+  useEffect(() => {
+    const fetchFeed = async () => {
+      setFeedLoading(true);
+      setFeedError('');
+      try {
+        // Fetch recent recipes
+        const recipesRes = await fetch('/api/recipes');
+        const recipes = recipesRes.ok ? await recipesRes.json() : [];
+        // Only use recent recipes for the feed
+        const feedItems = recipes.slice(0, 8).map(r => ({ type: 'recipe', user: r.createdBy?.username || 'Someone', recipe: r.title, time: r.createdAt, id: r._id }));
+        setCommunityFeed(feedItems);
+      } catch (err) {
+        setFeedError('Could not load community feed.');
+      } finally {
+        setFeedLoading(false);
+      }
+    };
+    fetchFeed();
+  }, []);
 
   const fetchUserData = async () => {
     try {
@@ -133,8 +162,19 @@ const Dashboard = () => {
   if (loading) return <div className={styles.loading}>Loading your dashboard...</div>;
   if (!user) return null;
 
+  // Profile completion check
+  // Removed needsProfileCompletion
+
+  // Helper to change tab and update hash
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    window.location.hash = tab;
+  };
+
   return (
     <div className={styles.dashboardRoot}>
+      {/* Profile Completion Prompt */}
+      {/* Removed Complete Profile prompt and success message */}
       {/* Background Accent */}
       <div className={styles.profileAccent}></div>
       {/* Profile and Quick Stats */}
@@ -177,12 +217,11 @@ const Dashboard = () => {
 
       {/* Tabs */}
       <div className={styles.tabs}>
-        <button className={activeTab === 'overview' ? styles.active : ''} onClick={() => setActiveTab('overview')}>Overview</button>
-        <button className={activeTab === 'recipes' ? styles.active : ''} onClick={() => setActiveTab('recipes')}>My Recipes</button>
-        <button className={activeTab === 'favorites' ? styles.active : ''} onClick={() => setActiveTab('favorites')}>Favorites</button>
-        <button className={activeTab === 'progress' ? styles.active : ''} onClick={() => setActiveTab('progress')}>Progress</button>
+        <button className={activeTab === 'overview' ? styles.active : ''} onClick={() => handleTabChange('overview')}>Overview</button>
+        <button className={activeTab === 'recipes' ? styles.active : ''} onClick={() => handleTabChange('recipes')}>My Recipes</button>
+        <button className={activeTab === 'favorites' ? styles.active : ''} onClick={() => handleTabChange('favorites')}>Favorites</button>
+        <button className={activeTab === 'progress' ? styles.active : ''} onClick={() => handleTabChange('progress')}>Progress</button>
       </div>
-
       {/* Tab Content */}
       <div className={styles.tabContent}>
         {activeTab === 'overview' && <OverviewTab stats={stats} />}
@@ -190,24 +229,111 @@ const Dashboard = () => {
         {activeTab === 'favorites' && <FavoritesTab />}
         {activeTab === 'progress' && <ProgressTab stats={stats} />}
       </div>
+      {/* Community Feed */}
+      <div className={styles.communityFeed}>
+        <h3>Community Feed</h3>
+        {feedLoading ? (
+          <div>Loading feed...</div>
+        ) : feedError ? (
+          <div style={{ color: '#e11d48' }}>{feedError}</div>
+        ) : (
+          <ul className={styles.feedList}>
+            {communityFeed.map((item, i) => (
+              <li key={item.id || i} className={styles.feedItem}>
+                <span className={styles.feedUser}>{item.user}</span> added a new recipe <b>{item.recipe}</b> <span className={styles.feedTime}>{new Date(item.time).toLocaleString()}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 };
 
-const OverviewTab = ({ stats }) => (
-  <div>
-    <h3>Recent Activity</h3>
-    <ul>
-      {stats.completedRecipes?.slice(0, 5).map((completion, i) => (
-        <li key={i}>
-          <span>✔️ {completion.recipe?.title}</span>
-          <span style={{ color: '#888', marginLeft: 8 }}>{new Date(completion.completedAt).toLocaleDateString()}</span>
-        </li>
-      ))}
-      {(!stats.completedRecipes || stats.completedRecipes.length === 0) && <li>No recent activity</li>}
-    </ul>
-  </div>
-);
+const OverviewTab = ({ stats }) => {
+  const [showBrowseOptions, setShowBrowseOptions] = useState(false);
+
+  const handleBrowseRecipes = () => {
+    setShowBrowseOptions((prev) => !prev);
+  };
+  const handleYouTubeBrowse = () => {
+    window.open('https://www.youtube.com/results?search_query=cooking+recipes+tutorial', '_blank');
+    setShowBrowseOptions(false);
+  };
+  const handleGoogleBrowse = () => {
+    window.open('https://www.google.com/search?q=cooking+recipes+tutorial', '_blank');
+    setShowBrowseOptions(false);
+  };
+
+  return (
+    <div>
+      {/* Browse Recipe Section */}
+      <div className={homeStyles.heroButtons} style={{ marginBottom: 24 }}>
+        <div className={homeStyles.browseContainer}>
+          <button
+            className={homeStyles.primaryButton}
+            onClick={handleBrowseRecipes}
+            onMouseEnter={e => {
+              e.currentTarget.style.transform = 'translateY(-5px) scale(1.05)';
+              e.currentTarget.style.boxShadow = '0 20px 40px rgba(229, 62, 62, 0.5)';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.transform = 'translateY(0) scale(1)';
+              e.currentTarget.style.boxShadow = '0 10px 20px rgba(229, 62, 62, 0.3)';
+            }}
+          >
+            Browse Recipes
+            <i className="fas fa-chevron-down" style={{ marginLeft: '8px', transition: 'transform 0.3s ease', transform: showBrowseOptions ? 'rotate(180deg)' : 'rotate(0deg)' }}></i>
+          </button>
+          {showBrowseOptions && (
+            <div className={homeStyles.browseDropdown}>
+              <button
+                className={homeStyles.dropdownOption}
+                onClick={handleYouTubeBrowse}
+                onMouseEnter={e => {
+                  e.currentTarget.style.transform = 'translateX(5px)';
+                  e.currentTarget.style.background = 'rgba(229, 62, 62, 0.9)';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.transform = 'translateX(0)';
+                  e.currentTarget.style.background = 'rgba(229, 62, 62, 0.8)';
+                }}
+              >
+                <i className="fab fa-youtube" style={{ marginRight: '8px', color: '#ff0000' }}></i>
+                YouTube Recipes
+              </button>
+              <button
+                className={homeStyles.dropdownOption}
+                onClick={handleGoogleBrowse}
+                onMouseEnter={e => {
+                  e.currentTarget.style.transform = 'translateX(5px)';
+                  e.currentTarget.style.background = 'rgba(229, 62, 62, 0.9)';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.transform = 'translateX(0)';
+                  e.currentTarget.style.background = 'rgba(229, 62, 62, 0.8)';
+                }}
+              >
+                <i className="fab fa-google" style={{ marginRight: '8px', color: '#4285f4' }}></i>
+                Google Recipes
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+      <h3>Recent Activity</h3>
+      <ul>
+        {stats.completedRecipes?.slice(0, 5).map((completion, i) => (
+          <li key={i}>
+            <span>✔️ {completion.recipe?.title}</span>
+            <span style={{ color: '#888', marginLeft: 8 }}>{new Date(completion.completedAt).toLocaleDateString()}</span>
+          </li>
+        ))}
+        {(!stats.completedRecipes || stats.completedRecipes.length === 0) && <li>No recent activity</li>}
+      </ul>
+    </div>
+  );
+};
 
 const RecipesTab = ({ user }) => {
   const [recipes, setRecipes] = useState([]);

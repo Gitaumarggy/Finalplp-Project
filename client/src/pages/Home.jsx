@@ -8,7 +8,6 @@ const Home = () => {
   const [recipes, setRecipes] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
   const [scrollY, setScrollY] = useState(0);
-  const [showBrowseOptions, setShowBrowseOptions] = useState(false);
   const [userPreferences, setUserPreferences] = useState({});
   const [userHistory, setUserHistory] = useState([]);
   const navigate = useNavigate();
@@ -215,20 +214,6 @@ const Home = () => {
     navigate('/add');
   };
 
-  const handleBrowseRecipes = () => {
-    setShowBrowseOptions(!showBrowseOptions);
-  };
-
-  const handleYouTubeBrowse = () => {
-    window.open('https://www.youtube.com/results?search_query=cooking+recipes+tutorial', '_blank');
-    setShowBrowseOptions(false);
-  };
-
-  const handleGoogleBrowse = () => {
-    window.open('https://www.google.com/search?q=cooking+recipes+tutorial', '_blank');
-    setShowBrowseOptions(false);
-  };
-
   // Category definitions (same as CategoryPage)
   const categories = {
     breakfast: { name: 'Breakfast', icon: '🥞' },
@@ -279,59 +264,7 @@ const Home = () => {
             Let's turn everyday ingredients into extraordinary experiences.
           </p>
           <div className={styles.heroButtons}>
-            <div className={styles.browseContainer}>
-              <button 
-                className={styles.primaryButton} 
-                onClick={handleBrowseRecipes}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-5px) scale(1.05)';
-                  e.currentTarget.style.boxShadow = '0 20px 40px rgba(229, 62, 62, 0.5)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                  e.currentTarget.style.boxShadow = '0 10px 20px rgba(229, 62, 62, 0.3)';
-                }}
-              >
-              Browse Recipes
-                <i className="fas fa-chevron-down" style={{ marginLeft: '8px', transition: 'transform 0.3s ease', transform: showBrowseOptions ? 'rotate(180deg)' : 'rotate(0deg)' }}></i>
-              </button>
-              
-              {showBrowseOptions && (
-                <div className={styles.browseDropdown}>
-                  <button 
-                    className={styles.dropdownOption}
-                    onClick={handleYouTubeBrowse}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateX(5px)';
-                      e.currentTarget.style.background = 'rgba(229, 62, 62, 0.9)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translateX(0)';
-                      e.currentTarget.style.background = 'rgba(229, 62, 62, 0.8)';
-                    }}
-                  >
-                    <i className="fab fa-youtube" style={{ marginRight: '8px', color: '#ff0000' }}></i>
-                    YouTube Recipes
-                  </button>
-                  <button 
-                    className={styles.dropdownOption}
-                    onClick={handleGoogleBrowse}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateX(5px)';
-                      e.currentTarget.style.background = 'rgba(229, 62, 62, 0.9)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translateX(0)';
-                      e.currentTarget.style.background = 'rgba(229, 62, 62, 0.8)';
-                    }}
-                  >
-                    <i className="fab fa-google" style={{ marginRight: '8px', color: '#4285f4' }}></i>
-                    Google Recipes
-            </button>
-                </div>
-              )}
-            </div>
-            
+            {/* Removed browse recipe section */}
             <button 
               className={styles.secondaryButton} 
               onClick={handleAddRecipe}

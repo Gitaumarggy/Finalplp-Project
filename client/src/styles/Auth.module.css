@@ -3,12 +3,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: url('/food-login-bg.jpg') center/cover no-repeat, linear-gradient(135deg, #fffbe9 0%, #f3f4f6 100%);
   padding: 2rem;
   position: relative;
   overflow: hidden;
 }
-
+.authContainer::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(255,255,255,0.7);
+  z-index: 0;
+  pointer-events: none;
+}
 .authCard {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
